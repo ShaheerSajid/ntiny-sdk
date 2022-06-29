@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;ntiny_application/src/main1.c&apos; to &apos;rfid_main.c&apos;" description="Rename resource &apos;main1.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main1.c" name="rfid_main.c" stamp="1656497222168" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;ntiny_application/src/main.c&apos; to &apos;car_main.c&apos;" description="Rename resource &apos;main.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main.c" name="car_main.c" stamp="1656497232256" updateReferences="true"/>
+</session>
