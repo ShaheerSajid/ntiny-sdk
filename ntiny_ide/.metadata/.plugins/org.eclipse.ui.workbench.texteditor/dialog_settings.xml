@@ -8,8 +8,8 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="ee_ee_printf"/>
 			<item value="printf"/>
+			<item value="ee_ee_printf"/>
 			<item value="ee_printf"/>
 		</list>
 		<list key="replacehistory">

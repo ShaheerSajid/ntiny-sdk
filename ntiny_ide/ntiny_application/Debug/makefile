@@ -9,13 +9,18 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
+-include lib/softI2C/src/subdir.mk
 -include lib/lcd/src/subdir.mk
 -include lib/keypad/src/subdir.mk
+-include lib/dht/src/subdir.mk
 -include lib/Servo_motor/src/subdir.mk
 -include lib/SSD1306/src/subdir.mk
 -include lib/MPU_6050/src/subdir.mk
 -include lib/MFRC522/src/subdir.mk
 -include lib/GY80/src/subdir.mk
+-include lib/FreeRTOS/Source/portable/MemMang/subdir.mk
+-include lib/FreeRTOS/Source/portable/GCC/RISCV/subdir.mk
+-include lib/FreeRTOS/Source/subdir.mk
 -include lib/FFT/src/subdir.mk
 -include lib/DMD/src/subdir.mk
 -include lib/DAC_MCP4725/src/subdir.mk

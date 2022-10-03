@@ -23,12 +23,17 @@ lib/AES/src \
 lib/DAC_MCP4725/src \
 lib/DMD/src \
 lib/FFT/src \
+lib/FreeRTOS/Source \
+lib/FreeRTOS/Source/portable/GCC/RISCV \
+lib/FreeRTOS/Source/portable/MemMang \
 lib/GY80/src \
 lib/MFRC522/src \
 lib/MPU_6050/src \
 lib/SSD1306/src \
 lib/Servo_motor/src \
+lib/dht/src \
 lib/keypad/src \
 lib/lcd/src \
+lib/softI2C/src \
 src \
 

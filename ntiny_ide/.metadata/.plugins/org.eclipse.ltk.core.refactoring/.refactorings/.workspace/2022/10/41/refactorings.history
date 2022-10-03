@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;ntiny_application/src/aes_main.c&apos;" deleteContents="false" description="Delete resource &apos;ntiny_application/src/aes_main.c&apos;" element1="/ntiny_application/src/aes_main.c" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1664807026195"/>&#x0A;<refactoring comment="Delete resource &apos;ntiny_application/Debug&apos;" deleteContents="false" description="Delete resource &apos;ntiny_application/Debug&apos;" element1="/ntiny_application/Debug" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1664807141251"/>
+</session>

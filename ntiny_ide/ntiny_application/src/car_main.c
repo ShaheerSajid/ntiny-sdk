@@ -102,6 +102,10 @@ int main(void)
 	gpio_mode(2,1);
 	gpio_mode(3,1);
 
+	gpio_mode(4,0);
+	gpio_mode(5,0);
+	gpio_mode(6,0);
+
 	pwm_init();
 	set_compare1(2000);
 	pwm1_start();
@@ -133,7 +137,7 @@ int main(void)
 			}
 			else if(y=='W')
 			{
-				set_compare1(2000);
+				set_compare1(1500);
 			}
 			else if(y=='w')
 			{
@@ -144,7 +148,14 @@ int main(void)
 				stop();
 			}
 		}
-
+		/*else if((!gpio_read_pin(4) && gpio_read_pin(5) && !gpio_read_pin(6)) || (gpio_read_pin(4) && gpio_read_pin(5) && gpio_read_pin(6)))
+			backward();
+		else if((!gpio_read_pin(4) && gpio_read_pin(6)))
+			left();
+		else if((gpio_read_pin(4) && !gpio_read_pin(6)))
+			right();*/
+		else
+			stop();
 	}
 	return 1;
 

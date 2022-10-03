@@ -147,7 +147,7 @@ void ISR_SPI_ASM()
   __asm("la x1, end_except");
   __asm("jal x0, ISR_SPI");
 }
-
+/*
 extern __attribute__((section (".ISR_TIMER_ASM"), naked))
 void ISR_TIMER_ASM()
 {
@@ -157,6 +157,7 @@ void ISR_TIMER_ASM()
   __asm("la x1, end_except");
   __asm("jal x0, ISR_TIMER");
 }
+*/
 extern __attribute__((section (".RESET_HANDLER"), naked))
 void RESET_HANDLER()
 {
