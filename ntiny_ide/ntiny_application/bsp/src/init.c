@@ -207,6 +207,7 @@ void RESET_HANDLER()
 	__asm("nop");
 	}
 	main();
+	__asm("jal x0, RESET_HANDLER");
 }
 
 

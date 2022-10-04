@@ -23,7 +23,8 @@ static void test_encrypt_ecb_verbose(void);
 int main(void)
 {
     int exit;
-
+    int_disable();
+    uart_init(9600);
 #if defined(AES256)
     ee_printf("\nTesting AES256\n\n");
 #elif defined(AES192)

@@ -5,7 +5,7 @@
    notice and this notice are preserved.  */
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
 	      "elf32-littleriscv")
-GROUP( -lc -lgloss -lgcc -lsupc++ -lm)
+GROUP(-lc -lgloss -lgcc -lsupc++ -lm)
 OUTPUT_ARCH(riscv)
 MEMORY
 {
