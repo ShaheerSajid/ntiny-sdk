@@ -41,6 +41,7 @@ int uart_putc(char c)
    //m_uart[U_TX/4] = c;
     volatile uint32_t	*sim_uart	= 	(volatile uint32_t*)0x800000;
     *sim_uart = c;
+    m_uart = (volatile uint32_t *)UART_BASE_ADDR;
     m_uart[U_TX/4] = c;
     #ifndef VERILATOR
      while (m_uart[U_STATUS/4] & (1 << U_STATUS_TXFULL_SHIFT)){

@@ -1,0 +1,16 @@
+void int_disable(void);
+void int_enable(void);
+
+extern void ISR_I2C (void);	// 23: i2c
+extern void ISR_UART (void);	// 23: i2c
+extern void ISR_EXT (void); 	// 25: gpio
+extern void ISR_SPI (void);  // 26: spim end of transmission
+extern void ISR_TIMER (void);  // 26: spim end of transmission
+extern void store_regs();
+extern void end_except();
+extern void ISR_I2C_ASM();
+extern void ISR_UART_ASM();
+extern void ISR_EXT_ASM();
+extern void ISR_SPI_ASM();
+extern void ISR_TIMER_ASM();
+

@@ -14,18 +14,19 @@
 #include "uart.h"
 #include "microFFT.h"
 
+
 /* FFT Parameters and Variables */
 #define FFT_samples             128      //This value MUST ALWAYS be a power of 2
 #define FFT_samplingFrequency   200
-#define FFT_ampFactor           8.35f
+#define FFT_ampFactor           FFT_samples/8.0f
 float vReal[FFT_samples];
 float vImag[FFT_samples];
 
 /* Simulated signal */
 // Sinusoidal Parameters and Variables
-#define sin_signals_number      5
-float sin_amplitude[sin_signals_number] = {10,     5,    40,    13,    20};
-float sin_frequency[sin_signals_number] = {10,      20,     65,     40,     83};
+#define sin_signals_number      3
+float sin_amplitude[sin_signals_number] = {10,     60,    40};
+float sin_frequency[sin_signals_number] = {10,      20,     65};
 
 // Signal Parameters and Variable
 #define signal_samples          FFT_samples
@@ -62,14 +63,7 @@ int main()
 
         float amp, freq;
         FFT_MajorPeak(&amp, &freq, FFT_ampFactor);
-        //ee_printf("Mag: %f, Freq: %f\n", amp, freq);
-
-        char buf[5];
-        itoa((int)amp, buf,10);
-        uart_puts("Mag: ");uart_puts(buf);uart_putc('\t');
-        itoa((int)freq, buf,10);
-	    uart_puts("Freq: ");uart_puts(buf);uart_putc('\n');
-
+        ee_printf("Mag: %f, Freq: %f\n", amp, freq);
     // }
 
 

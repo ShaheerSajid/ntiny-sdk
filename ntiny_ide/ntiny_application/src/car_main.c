@@ -104,20 +104,19 @@ int main(void)
 
 	gpio_mode(4,0);
 	gpio_mode(5,0);
-	gpio_mode(6,0);
+	gpio_mode(7,0);
 
 	pwm_init();
-	set_compare1(2000);
+	set_compare1(1500);
 	pwm1_start();
 
 	while(1){
-
 		if(uart_haschar())
 		{
 			char y = uart_getchar();
 			if(y == 'F')
 			{
-				forward();
+				backward();
 				delay_ms(100);
 			}
 			else if(y == 'R')
@@ -132,12 +131,12 @@ int main(void)
 			}
 			else if(y == 'B')
 			{
-				backward();
+				forward();
 				delay_ms(100);
 			}
 			else if(y=='W')
 			{
-				set_compare1(1500);
+				set_compare1(1000);
 			}
 			else if(y=='w')
 			{
@@ -148,14 +147,25 @@ int main(void)
 				stop();
 			}
 		}
-		/*else if((!gpio_read_pin(4) && gpio_read_pin(5) && !gpio_read_pin(6)) || (gpio_read_pin(4) && gpio_read_pin(5) && gpio_read_pin(6)))
-			backward();
-		else if((!gpio_read_pin(4) && gpio_read_pin(6)))
-			left();
-		else if((gpio_read_pin(4) && !gpio_read_pin(6)))
-			right();*/
+/*
+		if((gpio_read_pin(4) && !gpio_read_pin(5) && gpio_read_pin(7)) || (gpio_read_pin(4) && gpio_read_pin(5) && gpio_read_pin(7)))
+				backward();
+		else if((!gpio_read_pin(4) && (gpio_read_pin(5) || gpio_read_pin(7))))
+				left();
+		else if(((gpio_read_pin(4) || gpio_read_pin(5)) && !gpio_read_pin(7)))
+				right();
 		else
 			stop();
+
+		uart_putc(gpio_read_pin(4)+48);
+		uart_putc(gpio_read_pin(5)+48);
+		uart_putc(gpio_read_pin(7)+48);
+		uart_putc('\n');
+		delay_ms(2);
+		stop();
+		delay_ms(10);
+*/
+
 	}
 	return 1;
 
