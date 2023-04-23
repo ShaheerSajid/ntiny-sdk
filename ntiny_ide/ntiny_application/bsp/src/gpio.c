@@ -63,5 +63,5 @@ uint32_t gpio_check_pin_mode()
 
 void gpio_set_interrupt()
 {
-	gpio__base_addr[cmd] |= (1 << 5) | (1<<4);
+	gpio__base_addr[cmd] |= (1 << 5)/* | (1<<4)*/;
 }

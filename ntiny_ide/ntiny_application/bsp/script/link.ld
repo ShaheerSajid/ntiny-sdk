@@ -5,28 +5,28 @@
    notice and this notice are preserved.  */
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
 	      "elf32-littleriscv")
-GROUP(-lc -lgloss -lgcc -lsupc++ -lm)
+GROUP(-lc -lgloss -lgcc -lm)
 OUTPUT_ARCH(riscv)
 MEMORY
 {
-  ROM (rwx)  : ORIGIN = 0x0, LENGTH = 0x8000
-  RAM (rwx)  : ORIGIN = 0x10000, LENGTH = 0x2000 
+  ROM (rwx)  : ORIGIN = 0x00000000, LENGTH = 0x8000
+  RAM (rwx)  : ORIGIN = 0x00010000, LENGTH = 0x2000 
 }
 ENTRY(_init)
-SEARCH_DIR("/opt/gcc_ntiny/riscv64-unknown-elf/lib");
+SEARCH_DIR("/opt/riscv64_new/riscv64-unknown-elf/lib");
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */
   PROVIDE (__executable_start = SEGMENT_START("text-segment", 0x10000)); . = SEGMENT_START("text-segment", 0x10000) + SIZEOF_HEADERS;
   PROVIDE(__stack_top = ORIGIN(RAM) + LENGTH(RAM));
-  .init          : { *(.init) } > ROM
-  .RESET_HANDLER          : { *(.RESET_HANDLER) } > ROM
-  .ISR_I2C_ASM          : { *(.ISR_I2C_ASM) } > ROM
-  .ISR_UART_ASM          : { *(.ISR_UART_ASM) } > ROM
-  .ISR_EXT_ASM          : { *(.ISR_EXT_ASM) } > ROM
-  .ISR_SPI_ASM          : { *(.ISR_SPI_ASM) } > ROM
-  .ISR_TIMER_ASM          : { *(.ISR_TIMER_ASM) } > ROM
-  .text           :
+
+  .init           		: { *(.init) } > ROM
+  .RESET_HANDLER  		: { *(.RESET_HANDLER) } > ROM
+  .ISR_SOFT_ASM       : { *(.ISR_SOFT_ASM) } > ROM
+  .ISR_TIMER_ASM  		: { *(.ISR_TIMER_ASM) } > ROM
+  .ISR_EXT_ASM    		: { *(.ISR_EXT_ASM) } > ROM
+  .ISR_DEFAULT_ASM    : { *(.ISR_DEFAULT_ASM) } > ROM
+  .text           		:
   {
     *(.text.unlikely .text.*_unlikely .text.unlikely.*)
     *(.text.exit .text.exit.*)

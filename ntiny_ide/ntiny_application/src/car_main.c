@@ -13,43 +13,6 @@
 #include "gpio.h"
 #include "pwm.h"
 
-/*
-void ISR_EXT (void)
-{
-	volatile uint32_t	*m_uart	= 	(volatile uint32_t *)UART_BASE_ADDR;
-    int x = 0;
-	char *data = "External Interrupt\n";
-	while (data[x] != 0)
-		{
-			//*sim_uart = data[x];
-			 m_uart[U_TX/4] = data[x];
-			while (m_uart[U_STATUS/4] & (1 << U_STATUS_TXFULL_SHIFT)){
-
-			}
-			x++;
-		}
-	__asm("jalr x0, x1");
-}
-
-void ISR_TIMER (void)
-{
-	volatile uint32_t	*m_uart	= 	(volatile uint32_t *)UART_BASE_ADDR;
-    int x = 0;
-	char *data = "Timer Interrupt\n";
-	while (data[x] != 0)
-		{
-			//*sim_uart = data[x];
-			 m_uart[U_TX/4] = data[x];
-			while (m_uart[U_STATUS/4] & (1 << U_STATUS_TXFULL_SHIFT)){
-
-			}
-			x++;
-		}
-	__asm("jalr x0, x1");
-
-
-}
-*/
 void stop()
 {
 	gpio_write_pin(0,0);
@@ -102,9 +65,8 @@ int main(void)
 	gpio_mode(2,1);
 	gpio_mode(3,1);
 
-	gpio_mode(4,0);
-	gpio_mode(5,0);
-	gpio_mode(7,0);
+	gpio_mode(7,1);
+
 
 	pwm_init();
 	set_compare1(1500);
@@ -147,25 +109,13 @@ int main(void)
 				stop();
 			}
 		}
-/*
-		if((gpio_read_pin(4) && !gpio_read_pin(5) && gpio_read_pin(7)) || (gpio_read_pin(4) && gpio_read_pin(5) && gpio_read_pin(7)))
-				backward();
-		else if((!gpio_read_pin(4) && (gpio_read_pin(5) || gpio_read_pin(7))))
-				left();
-		else if(((gpio_read_pin(4) || gpio_read_pin(5)) && !gpio_read_pin(7)))
-				right();
 		else
-			stop();
-
-		uart_putc(gpio_read_pin(4)+48);
-		uart_putc(gpio_read_pin(5)+48);
-		uart_putc(gpio_read_pin(7)+48);
-		uart_putc('\n');
-		delay_ms(2);
-		stop();
-		delay_ms(10);
-*/
-
+		{
+			delay_ms(50);
+			gpio_write_pin(7,1);
+			delay_ms(50);
+			gpio_write_pin(7,0);
+		}
 	}
 	return 1;
 

@@ -4,8 +4,8 @@
 		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_1" value="195"/>
 		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_2" value="804"/>
 		<item key="org.eclipse.debug.ui.EXPANDED_NODES" value="ilg.gnumcueclipse.debug.gdbjtag.openocd.launchConfigurationType, org.eclipse.ui.externaltools.ProgramLaunchConfigurationType, "/>
-		<item key="DIALOG_WIDTH" value="1920"/>
-		<item key="DIALOG_HEIGHT" value="1016"/>
+		<item key="DIALOG_WIDTH" value="1440"/>
+		<item key="DIALOG_HEIGHT" value="752"/>
 		<item key="DIALOG_FONT_NAME" value="1|Ubuntu|11.0|0|GTK|1|"/>
 	</section>
 	<section name="org.eclipse.debug.ui.SCOPED_SAVE_SELECTION_DIALOG">

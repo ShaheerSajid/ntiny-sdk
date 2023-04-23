@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="(sp);"/>
+		<item key="selection" value="volatile uint32_t* m_spi"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="uint32_t* m_spi"/>
+			<item value="volatile volatile"/>
+			<item value="uint32_t *m_spi"/>
+			<item value="spi_cs"/>
+			<item value="spi_sendrecv"/>
+			<item value="spi_sendrecv("/>
+			<item value="spi_cs("/>
+			<item value="writeWord"/>
+			<item value="i2c"/>
+			<item value="writeMem"/>
+			<item value="SPI.transfer"/>
+			<item value="DHTPIN"/>
 			<item value="(sp)"/>
 			<item value="cos"/>
 			<item value="j"/>
-			<item value="signal"/>
-			<item value="signal_Offset"/>
-			<item value="FFT_ampFactor"/>
-			<item value="RemoveOffset"/>
-			<item value="LTC2308_CS"/>
-			<item value="AES_ECB_encrypt"/>
-			<item value="added software breakpoint"/>
-			<item value="breakpoint"/>
-			<item value="added breakpoint"/>
-			<item value="gcc_ntiny"/>
-			<item value="ecall"/>
-			<item value="sin"/>
 		</list>
 		<list key="replacehistory">
+			<item value="volatile uint32_t* m_spi"/>
+			<item value="volatile"/>
+			<item value="volatile uint32_t *m_spi"/>
+			<item value="spi_cs_custom"/>
+			<item value="spi_sendrecv_custom"/>
+			<item value="spi_sendrecv(m_spi,"/>
+			<item value="spi_cs(m_spi,"/>
+			<item value="spi_sendrecv"/>
 			<item value="(sp);"/>
 			<item value="cosf"/>
 			<item value="ee_printf"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1469"/>
+		<item key="DIALOG_X_ORIGIN" value="989"/>
 		<item key="DIALOG_Y_ORIGIN" value="344"/>
 		<item key="DIALOG_WIDTH" value="349"/>
 		<item key="DIALOG_HEIGHT" value="437"/>

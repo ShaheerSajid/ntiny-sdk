@@ -11,20 +11,13 @@ void int_enable(void) {
   csr_set(mstatus , (1<<3) );
 }
 
-
-void ISR_I2C_ASM()
+void ISR_DEFAULT_ASM()
 {
 }
-
-void ISR_UART_ASM()
-{
-}
-
 void ISR_EXT_ASM()
 {
 }
-
-void ISR_SPI_ASM()
+void ISR_SOFT_ASM()
 {
 }
 void ISR_TIMER_ASM()
@@ -88,9 +81,15 @@ void RESET_HANDLER()
 __attribute__((section (".init"), naked))
 void _init(){
 	__asm("jal x0, RESET_HANDLER");
-	__asm("jal x0, ISR_TIMER_ASM");	 
-	__asm("jal x0, ISR_UART_ASM");	
-	__asm("jal x0, ISR_I2C_ASM");	   
-	__asm("jal x0, ISR_SPI_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_SOFT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+	__asm("jal x0, ISR_TIMER_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
+  __asm("jal x0, ISR_DEFAULT_ASM");
 	__asm("jal x0, ISR_EXT_ASM");
 }
