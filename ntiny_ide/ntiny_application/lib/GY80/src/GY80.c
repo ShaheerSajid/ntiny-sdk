@@ -74,7 +74,7 @@
 
 
 void GY80_init()
-{   I2C_init (0x2000000,100000);
+{   I2C_init (100000);
     m_scale = 1;
     //a_scale = 0;
     g_scale = 1;

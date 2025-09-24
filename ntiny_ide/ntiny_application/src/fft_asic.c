@@ -132,7 +132,7 @@ float cycles5;
 int main(void) {
 
 	int_disable();
-	uart_init(115200);
+	uart_init(250000);
 
 	gpio_mode(0, 0);
 	gpio_mode(1, 0);
@@ -140,79 +140,77 @@ int main(void) {
 	gpio_mode(3, 0);
 	gpio_mode(4, 0);
 	gpio_mode(5, 0);
+	while(1) {
+		float adc_voltage;
+		float amp, freq;
+		// Single-ended, CH0, unipolar, low gain, normal mode.
 
-	float adc_voltage;
-	float amp, freq;
-	// Single-ended, CH0, unipolar, low gain, normal mode.
-
-	FFT_Init(vReal, vImag, FFT_samples, FFT_samplingFrequency);
-	firFilter fir;
-	firFilter_init(&fir);
-
-/*
-	float signalFrequency1 = gpio_read_pin(1)? 200 : 0;
-	float signalFrequency2 = gpio_read_pin(2)? 400 : 0;
-	float signalFrequency3 = gpio_read_pin(3)? 600 : 0;
-	float signalFrequency4 = gpio_read_pin(4)? 800 : 0;
-	float signalFrequency5 = gpio_read_pin(5)? 1000 : 0;
-*/
-	float signalFrequency1 = 200;
-	float signalFrequency2 = 400;
-	float signalFrequency3 = 600;
-	float signalFrequency4 = 800;
-	float signalFrequency5 = 1000;
+		FFT_Init(vReal, vImag, FFT_samples, FFT_samplingFrequency);
+		firFilter fir;
+		firFilter_init(&fir);
 
 
-	cycles1 = (((signal_samples - 1) * signalFrequency1)
-			/ FFT_samplingFrequency);
-	//ee_printf("%.6f\n", cycles1);
-	cycles2 = (((signal_samples - 1) * signalFrequency2)
-			/ FFT_samplingFrequency);
-	//ee_printf("%.6f\n", cycles2);
-	cycles3 = (((signal_samples - 1) * signalFrequency3)
-			/ FFT_samplingFrequency);
-	//ee_printf("%.6f\n", cycles3);
-	cycles4 = (((signal_samples - 1) * signalFrequency4)
-			/ FFT_samplingFrequency);
-	//ee_printf("%.6f\n", cycles4);
-	cycles5 = (((signal_samples - 1) * signalFrequency5)
-			/ FFT_samplingFrequency);
-	//ee_printf("%.6f\n",cycles5);
+		float signalFrequency1 = gpio_read_pin(1)? 200 : 0;
+		float signalFrequency2 = gpio_read_pin(2)? 400 : 0;
+		float signalFrequency3 = gpio_read_pin(3)? 600 : 0;
+		float signalFrequency4 = gpio_read_pin(4)? 800 : 0;
+		float signalFrequency5 = gpio_read_pin(5)? 1000 : 0;
 
-	for (int j = 0; j < signal_samples; j++) {
-		adc_voltage = ((1.0 * (sinf((j * (6.283 * cycles1)) / signal_samples))) / 2.0)
-					+ ((1.0 * (sinf((j * (6.283 * cycles2)) / signal_samples))) / 2.0)
-					+ ((1.0 * (sinf((j * (6.283 * cycles3)) / signal_samples))) / 2.0)
-					+ ((1.0 * (sinf((j * (6.283 * cycles4)) / signal_samples))) / 2.0)
-					+ ((1.0 * (sinf((j * (6.283 * cycles5)) / signal_samples))) / 2.0)
-					+ ((1.0 * (sinf((j * (6.283 * (((signal_samples - 1) * (200+rand()%800))/ FFT_samplingFrequency))) / signal_samples))) / 2.0)
-					+ 3.0;
-		if (gpio_read_pin(0)) {
-			firFilter_put(&fir, adc_voltage);
-			vReal[j] = firFilter_get(&fir);
-		} else {
-			vReal[j] = adc_voltage;
+
+		cycles1 = (((signal_samples - 1) * signalFrequency1)
+				/ FFT_samplingFrequency);
+		//ee_printf("%.6f\n", cycles1);
+		cycles2 = (((signal_samples - 1) * signalFrequency2)
+				/ FFT_samplingFrequency);
+		//ee_printf("%.6f\n", cycles2);
+		cycles3 = (((signal_samples - 1) * signalFrequency3)
+				/ FFT_samplingFrequency);
+		//ee_printf("%.6f\n", cycles3);
+		cycles4 = (((signal_samples - 1) * signalFrequency4)
+				/ FFT_samplingFrequency);
+		//ee_printf("%.6f\n", cycles4);
+		cycles5 = (((signal_samples - 1) * signalFrequency5)
+				/ FFT_samplingFrequency);
+		//ee_printf("%.6f\n",cycles5);
+
+		for (int j = 0; j < signal_samples; j++) {
+			adc_voltage = ((1.0 * (sinf((j * (6.283 * cycles1)) / signal_samples))) / 2.0)
+						+ ((1.0 * (sinf((j * (6.283 * cycles2)) / signal_samples))) / 2.0)
+						+ ((1.0 * (sinf((j * (6.283 * cycles3)) / signal_samples))) / 2.0)
+						+ ((1.0 * (sinf((j * (6.283 * cycles4)) / signal_samples))) / 2.0)
+						+ ((1.0 * (sinf((j * (6.283 * cycles5)) / signal_samples))) / 2.0)
+						+ ((1.0 * (sinf((j * (6.283 * (((signal_samples - 1) * (200+rand()%800))/ FFT_samplingFrequency))) / signal_samples))) / 2.0)
+						+ 3.0;
+			if (gpio_read_pin(0)) {
+				firFilter_put(&fir, adc_voltage);
+				vReal[j] = firFilter_get(&fir);
+			} else {
+				vReal[j] = adc_voltage;
+			}
+			vImag[j] = 0;
 		}
-		ee_printf("%.6f\n", adc_voltage);
-		vImag[j] = 0;
+		char sbuff[10];
+		// Signal Conditioning
+		RemoveOffset(vReal, signal_samples);
+		FFT_Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+		FFT_Compute(FFT_FORWARD);
+		FFT_ComplexToMagnitude();
+		FFT_MajorPeak(&amp, &freq, FFT_ampFactor);
+	//	ee_printf("Major Peak: Mag= %0.2f, Freq= %0.2f\n", amp, freq);
+	//	for (int i = 0; i < signal_samples /*/ 2*/; i++) {
+	//		ee_printf("%.6f\n", vReal[i]);
+	//	}
+		if(uart_haschar() ) {
+			uart_getchar();
+			for (int i = 0; i < signal_samples / 2; i++) {
+				ee_printf("%.2f",
+						(i * (float) FFT_samplingFrequency) / (float) FFT_samples);
+				ee_printf(",");
+				ee_printf("%.2f\n", vReal[i]);
+			}
+			uart_puts("done\n");
+		}
 	}
-	char sbuff[10];
-	// Signal Conditioning
-	RemoveOffset(vReal, signal_samples);
-	unsigned int t1 = (unsigned int)clock();
-	FFT_Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-	FFT_Compute(FFT_FORWARD);
-	unsigned int t2 = (unsigned int)clock();
-	itoa(t2-t1, sbuff, 10);
-	uart_puts(sbuff);uart_putc('\n');
-	FFT_ComplexToMagnitude();
-	FFT_MajorPeak(&amp, &freq, FFT_ampFactor);
-	ee_printf("Major Peak: Mag= %0.2f, Freq= %0.2f\n", amp, freq);
-	for (int i = 0; i < signal_samples /*/ 2*/; i++) {
-		ee_printf("%.6f\n", vReal[i]);
-	}
-	delay_ms(2000);
-	uart_puts("done\n");
 	return 0;
 }
 

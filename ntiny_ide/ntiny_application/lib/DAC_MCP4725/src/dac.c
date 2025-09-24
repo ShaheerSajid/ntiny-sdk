@@ -16,7 +16,7 @@ const uint16_t DACLookup_FullSine_5Bit[32] =
 void init_Dac(uint8_t dac_address)
 {
 	//uart_puts("Turning DAC module on using I2C..\n");
-   	I2C_init (0x2000000,400000);
+   	I2C_init (400000);
 	
 }
 

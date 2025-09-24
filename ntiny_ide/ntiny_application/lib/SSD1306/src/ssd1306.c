@@ -177,7 +177,7 @@ uint8_t SSD1306_Init (uint8_t address)
 
   // TWI: Init
   // -------------------------
-	I2C_init (0x2000000,400000);
+	I2C_init (400000);
 
   
   

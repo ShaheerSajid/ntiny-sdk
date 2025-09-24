@@ -10,10 +10,10 @@ OUTPUT_ARCH(riscv)
 MEMORY
 {
   ROM (rwx)  : ORIGIN = 0x00000000, LENGTH = 0x8000
-  RAM (rwx)  : ORIGIN = 0x00010000, LENGTH = 0x2000 
+  RAM (rwx)  : ORIGIN = 0x00010000, LENGTH = 0x2000
 }
 ENTRY(_init)
-SEARCH_DIR("/opt/riscv64_new/riscv64-unknown-elf/lib");
+SEARCH_DIR("/opt/riscv/riscv64-unknown-elf/lib");
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */

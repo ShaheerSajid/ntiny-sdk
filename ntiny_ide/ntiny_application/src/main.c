@@ -1,97 +1,90 @@
-#include <stdint.h>
-#include "uart.h"
-#include "init.h"
-#include "timer.h"
-#include "csr.h"
+#include <stdlib.h>
+#include <math.h>
 #include "ee_printf.h"
-#include "plic.h"
-#include "gpio.h"
-
-int t_cnt = 0;
-int g_cnt = 0;
-int id = 0;
-int s_cnt = 0;
-volatile uint32_t *soft_base_addr = (volatile uint32_t *)0x4000000;
-
-void gpio_0_ext_isr()
-{
-  g_cnt++;
-}
-void gpio_1_ext_isr()
-{
-  g_cnt--;
-}
-void uart_rx_ext_isr()
-{
-  char y = uart_getchar();
-  uart_putc(y);
-}
-
-
-void ISR_TIMER_ASM()
-{
-  t_cnt++;
-}
-
-void ISR_SOFT_ASM()
-{
-  s_cnt++;
-  *soft_base_addr = 0;
-}
-
-void ISR_EXT_ASM()
-{
-  id = get_interrupt_id();
-/*
-  switch(id)
-  {
-    case 1: gpio_0_ext_isr(); break;
-    case 2: gpio_1_ext_isr(); break;
-    case 3: uart_rx_ext_isr(); break;
-  }*/
-  if(id == 1) gpio_0_ext_isr();
-  else if(id == 2) gpio_1_ext_isr();
-  else if(id == 3) uart_rx_ext_isr();
-}
+#include "init.h"
+#include "csr.h"
+// #include "plic.h"
+// #include "gpio.h"
+#include "uart.h"
+#include "i2c.h"
+#include "timer.h"
+#include <time.h>
 
 int main()
 {
-  int_disable();
-  uart_init(115200);
+	int_disable();
+	I2C_init (400000);
+	uart_init(250000);
+
+	I2C_start(0x53,0);
+	I2C_write(0x2D,0);
+	I2C_write(8,1);
+
+	I2C_start(0x53,0);
+	I2C_write(0x2C,0);
+	I2C_write(0x0d,1);
+
+	// set range 16
+	I2C_start(0x53,0);
+	I2C_write(0x31,0);
+	I2C_start(0x53,1);
+	uint8_t format = I2C_read(1);
+
+	format &= ~0x0F;
+	format |= 0x11;
+	format |= 0x08;
+
+    I2C_start(0x53,0);
+    I2C_write(0x31,0);
+    I2C_write(format,1);
+
   while(1)
   {
-	  uart_puts("Ntiny\n");
+    uint64_t t1 = clock();
+    uint16_t AccX,AccY,AccZ;
+
+    I2C_start(0x53,0);
+    I2C_write(0x32,0);
+    I2C_start(0x53,1); // start in read
+
+    uint16_t x_0 = I2C_read(0);
+    uint16_t x_1 = I2C_read(0);
+    AccX = ((x_1 & 0x1f) << 8 | x_0) ; // X-axis value
+    int16_t xf = AccX;
+    if(xf > 4095)
+    {
+      xf = xf - 8192;
+    }
+    float xa = xf * 0.003906;
+
+    uint16_t y_0 = I2C_read(0);
+    uint16_t y_1 = I2C_read(0);
+    AccY = ((y_1 & 0x1f) << 8 | y_0) ; // X-axis value
+    int16_t yf = AccY;
+    if(yf > 4095)
+    {
+      yf = yf - 8192;
+    }
+    float ya = yf * 0.003906;
+
+    uint16_t z_0 = I2C_read(0);
+    uint16_t z_1 = I2C_read(1);
+    AccZ = ((z_1 & 0x1f) << 8 | z_0) ; // X-axis value
+
+    int16_t zf = AccZ;
+    if(zf > 4095)
+    {
+      zf = zf - 8192;
+    }
+    float za = zf * 0.003906;
+
+    float roll = atan(ya / sqrt(pow(xa, 2) + pow(za, 2))) * 180 / 3.1415;
+    float pitch = atan(-1 * xa / sqrt(pow(ya, 2) + pow(za, 2))) * 180 / 3.1415;
+
+    uint64_t t2 = clock();
+
+    ee_printf("%3.2f\n", pitch);
+
+    delay_ms(10);
   }
-/*
-  set_interrupt_enable(0b000001);
-  set_interrupt_threshold(0);
-  set_interrupt_priority(0b001011001);
-
-  //enable external
-  gpio_mode(0,0);
-  gpio_set_interrupt();
-  csr_set(mie , (1<<11));
-
-  //set timer
-  timer_set_prescaler(1); // set value by which you want to divide the clock frequency
-  timer_set_compare(2000);
-  timer_set_count(0);
-  //set timer interrupt
-  csr_set(mie , (1<<7));
-  //start timer
-  timer_start();
-
-
-  //set soft interrupt
-  csr_set(mie , (1<<3));
-
-  //set global interrupts
-  int_enable();
-
-	while(1)
-	{
-		ee_printf("Software = %d\tTimer %d\tExternal = %d\tID = %d\n", s_cnt, t_cnt, g_cnt,id);
-		if(t_cnt >= 50000 && t_cnt <= 200000) *soft_base_addr = 1;
-	}
-*/
 }

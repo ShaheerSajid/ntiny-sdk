@@ -7,7 +7,7 @@ void lcd_data_write(unsigned char);
 void lcd_cmd_write(unsigned char);
 void lcd_print(char*);
 void lcd_init();
-void lcd_scroll();
+void lcd_scroll(int);
 void lcd_setCursor(unsigned char, unsigned char);
 void lcd_clear();
 

@@ -16,8 +16,8 @@ float error;
 
 float set_speed = 2500;
 
-#define micros() (uint64_t)(clock()/(uint64_t)50)
-#define millis() (uint64_t)(clock()/(uint64_t)50000)
+#define micros() (uint64_t)(clock()/(uint64_t)25)
+#define millis() (uint64_t)(clock()/(uint64_t)25000)
 #define digitalRead(pin) gpio_read_pin(pin)
 
 unsigned int minutes = 0;
@@ -49,63 +49,61 @@ int main(void)
 
    while (1)
    {
-	   Setpoint = 30000000.0/set_speed;
-      while(!digitalRead(pulse));
-      while(digitalRead(pulse));
-      unsigned int edge_time = micros();
-      while(!digitalRead(pulse));
-      unsigned int time_period = 2*(micros()-edge_time) ;
+	Setpoint = 30000000.0/set_speed;
+	while(!digitalRead(pulse));
+	while(digitalRead(pulse));
+	unsigned int edge_time = micros();
+	while(!digitalRead(pulse));
+	unsigned int time_period = 2*(micros()-edge_time) ;
 
-      if(( millis()-  t1) >=  dt)
-      {
-    	/* minutes++;
-    	  if(minutes >60000/dt)
-    	  {
-    		  minutes = 0.0;
-    		  I = 0;
-    	  } */
+	if(( millis()-  t1) >=  dt)
+	{
+		/* minutes++;
+		if(minutes >60000/dt)
+		{
+		minutes = 0.0;
+		I = 0;
+		} */
 
-         __asm("csrrw x0, mcycle, x0");
-          __asm("csrrw x0, mcycleh, x0");
-          t1 = millis();
-         error = Setpoint - time_period;
+		__asm("csrrw x0, mcycle, x0");
+		__asm("csrrw x0, mcycleh, x0");
+		t1 = millis();
+		error = Setpoint - time_period;
 
-         P = Kp*error;
-         D = Kd*error/dt;
-         I += Ki*error*dt;
-         Output = -(P+I+D);
-       /*  ee_printf(" output: %0.2f",Output);
-              uart_putc('\t');
-		  ee_printf(" t1: %d",(unsigned int)t1);
-			uart_putc('\t');
+		P = Kp*error;
+		D = Kd*error/dt;
+		I += Ki*error*dt;
+		Output = -(P+I+D);
+		/*  ee_printf(" output: %0.2f",Output);
+		uart_putc('\t');
+		ee_printf(" t1: %d",(unsigned int)t1);
+		uart_putc('\t');
 		ee_printf("millis(): %d",(unsigned int)millis());
-			uart_putc('\t');*/
-         if(Output > 255) Output = 255;
-         if(Output < 0)
-		 {
-        	 //pwm1_stop();
-        	 Output = 0;
-		 }
+		uart_putc('\t');*/
+		if(Output > 255) Output = 255;
+		if(Output < 0)
+		{
+			//pwm1_stop();
+			Output = 0;
+		}
 
-         set_compare1(Output);
-      }
-          if(gpio_read_pin(1))
-    	  set_speed = 1000;
-      else if(gpio_read_pin(2))
-    	  set_speed=2000;
+		set_compare1(Output);
+	}
+	if(gpio_read_pin(1))
+		set_speed = 1000;
+	else if(gpio_read_pin(2))
+		set_speed = 2000;
 
-      else if(gpio_read_pin(3))
-    	  set_speed=3000;
-      else if(gpio_read_pin(4))
-    	  set_speed=4000;
-   	  else
-   	   	   set_speed = 2500;
+	else if(gpio_read_pin(3))
+		set_speed = 3000;
+	else if(gpio_read_pin(4))
+		set_speed = 4000;
+	else
+		set_speed = 2500;
 
-
-     ee_printf("%0.2f",set_speed);
-      uart_putc('\t');
-      ee_printf("%d\n",30000000/time_period);
-
+	ee_printf("%0.2f",set_speed);
+	uart_putc('\t');
+	ee_printf("%d\n",30000000/time_period);
 
    }
 

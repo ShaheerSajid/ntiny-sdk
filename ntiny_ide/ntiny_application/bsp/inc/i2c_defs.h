@@ -1,6 +1,10 @@
 #ifndef __I2C__DEFS_H__
 #define __I2C__DEFS_H__
 
+
+#define BASE_ADDR						0x2000000
+
+
 #define REG_CLK_PRESCALER 				0x00 // word addressable
 	// 	[15:0] Clock prescaler value
 	// 	reset of bits are unused

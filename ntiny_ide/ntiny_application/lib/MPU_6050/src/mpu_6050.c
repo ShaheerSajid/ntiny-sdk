@@ -9,7 +9,7 @@ void reset_mpu_6050 ()
 	//uart_puts ("entered mpu reset fucntion..\n");
     //Wire.begin();                      // Initialize I2C comunication
 	//uart_puts("Reseting MPU-6050 using I2C..\n");
-   	I2C_init (0x2000000,400000);
+   	I2C_init (400000);
 
     //Wire.beginTransmission(MPU);       // Start communication with MPU6050 // MPU=0x68
     I2C_start(0x68,0);
@@ -21,7 +21,7 @@ void reset_mpu_6050 ()
 }
 
 void run_mpu6050()
-{		
+{
 		 //Wire.beginTransmission(MPU);       // Start communication with MPU6050 // MPU=0x68
     	 I2C_start(0x68,0);
     	  //Wire.write(0x3B);                  // Talk to the register 6B
@@ -36,7 +36,7 @@ void run_mpu6050()
  		 uint32_t y_0 =I2C_read(0);
 		  uint32_t y_1 = I2C_read(0);
 		  AccY = (y_0 << 8 | y_1) ; // X-axis value
-	 	
+
 		  uint32_t z_0 =I2C_read(0);
 		  uint32_t z_1 = I2C_read(1);
 		  AccZ = (z_0 << 8 | z_1) ; // X-axis value
@@ -61,4 +61,3 @@ void run_mpu6050()
 		 uart_puts ("\n");
         */
 }
-	
