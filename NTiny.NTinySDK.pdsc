@@ -15,7 +15,7 @@
   <repository type="git">https://github.com/ntiny/ntiny-sdk.git</repository>
 
   <releases>
-    <release version="1.0.1" date="2026-04-30">
+    <release version="1.0.2" date="2026-04-30">
       Initial release.
         - CMSIS-Pack layout (Device, Drivers, Utilities, CMSIS/SVD).
         - Memory map and peripheral definitions synced with the ntiny
@@ -356,7 +356,7 @@
       <description>Toggle a GPIO pin once per second.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/Blinky.uvprojx"/>
         <environment name="csolution" load="Blinky.csolution.yml"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
@@ -371,7 +371,7 @@
       <description>Print a banner and echo received UART characters.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/UartHello.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -384,7 +384,7 @@
       <description>Compute and verify CRC32 over a buffer.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/CRC.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -398,7 +398,7 @@
       <description>Closed-loop PID controller with PWM output.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/PID.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -414,7 +414,7 @@
       <description>Read RFID tags via the MFRC522 (SPI).</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/RFID.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -430,7 +430,7 @@
       <description>RC-car platform: steering servo + UART telemetry.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/Car.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -446,7 +446,7 @@
       <description>Read DHT temperature/humidity and stream over UART.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/IoT.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -462,7 +462,7 @@
       <description>Software FFT benchmark using the microFFT library.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/FFT.uvprojx"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -477,7 +477,7 @@
       <description>Run the EEMBC CoreMark CPU benchmark.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/CoreMark.uvprojx"/>
         <environment name="gcc" load="core_main.c"/>
       </project>
       <attributes>
@@ -493,7 +493,7 @@
       <description>Run the Dhrystone 2.1 integer benchmark.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
-        <environment name="uv" load="src/main.c"/>
+        <environment name="uv" load="mdk/Dhrystone.uvprojx"/>
         <environment name="gcc" load="dhry_1.c"/>
       </project>
       <attributes>

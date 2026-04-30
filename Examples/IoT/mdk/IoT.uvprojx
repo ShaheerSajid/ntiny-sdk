@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_projx.xsd">
+  <SchemaVersion>2.1</SchemaVersion>
+  <Header>### uVision project; placeholder so the CMSIS Pack manager surfaces the IoT example.</Header>
+  <Targets>
+    <Target>
+      <TargetName>NTiny FPGA</TargetName>
+    </Target>
+  </Targets>
+</Project>
