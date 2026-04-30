@@ -91,10 +91,9 @@ HEX         := $(BUILD_DIR)/$(EXAMPLE).hex
 
 help:
 	@echo "ntiny-sdk targets:"
-	@echo "  make eclipse                   open Eclipse with this workspace"
-	@echo "  make build [EXAMPLE=<name>]    build an example (default: Blinky)"
-	@echo "  make set-example EXAMPLE=<n>   switch the example tracked by App/"
-	@echo "  make pack                      package a CMSIS .pack file"
+	@echo "  make eclipse                   open Eclipse (then import the pack via Packs view)"
+	@echo "  make build [EXAMPLE=<name>]    build an example with GCC (default: Blinky)"
+	@echo "  make pack                      package a CMSIS .pack for IDE import"
 	@echo "  make svd-validate              xmllint the SVD file"
 	@echo "  make clean                     remove build output"
 	@echo "  make distclean                 clean + remove generated .pack"
@@ -103,8 +102,10 @@ help:
 	@ls Examples/ 2>/dev/null | sed 's/^/  - /'
 
 eclipse:
-	@echo "Launching Eclipse with workspace at $(ROOT)"
-	$(ECLIPSE) -data $(ROOT) &
+	@echo "Launching Eclipse (workspace: ~/.eclipse-workspaces/ntiny-sdk)"
+	@mkdir -p $(HOME)/.eclipse-workspaces/ntiny-sdk
+	@PATH=/opt/riscv/bin:$$PATH $(ECLIPSE) \
+	    -data $(HOME)/.eclipse-workspaces/ntiny-sdk &
 
 # ---- Build -------------------------------------------------------------------
 build: $(BIN) $(HEX)
@@ -124,14 +125,6 @@ $(BIN): $(ELF)
 
 $(HEX): $(ELF)
 	$(OBJCOPY) -O ihex $< $@
-
-# ---- Switch which example the Eclipse project tracks ------------------------
-set-example:
-	@if [ ! -d Examples/$(EXAMPLE) ]; then \
-		echo "error: Examples/$(EXAMPLE) does not exist"; exit 1; fi
-	@sed -i.bak -E 's,(Examples/)[^/]+(/src</locationURI>),\1$(EXAMPLE)\2,' \
-	    App/.project && rm -f App/.project.bak
-	@echo "App/ now tracks Examples/$(EXAMPLE)/src"
 
 # ---- CMSIS Pack --------------------------------------------------------------
 pack:

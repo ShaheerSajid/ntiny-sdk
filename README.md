@@ -40,9 +40,6 @@ ntiny-sdk/
 │   │   FFT_ASIC, FFT_FPGA,    #   each main is now in its own folder.
 │   │   IoT, MainTemplate,
 │   │   MainNTiny, PID, RFID
-├── App/                       # Eclipse (GNU MCU) project template.
-│   ├── .project, .cproject    # Tracks Examples/Blinky by default; switch
-│   └── .settings              # via `make set-example EXAMPLE=<n>`.
 ├── Makefile                   # Top-level convenience targets
 ├── gen_pack.sh                # Builds a redistributable .pack file
 └── LICENSE                    # Apache 2.0
@@ -64,17 +61,33 @@ make build EXAMPLE=UartHello
 make pack                       # produce NTiny.NTinySDK.<ver>.pack
 ```
 
-### 2. Use the Eclipse project
+### 2. Use Eclipse via the CMSIS Pack
+
+The SDK is consumed by Eclipse the same way every other IDE consumes
+it: by importing the CMSIS Pack, not by maintaining a hand-tuned
+`.cproject`. This keeps the Eclipse, Keil, IAR, and STM32CubeIDE flows
+identical and avoids per-IDE drift.
 
 ```bash
-make eclipse                            # launches Eclipse with this folder as workspace
-make set-example EXAMPLE=PID            # point App/ at Examples/PID/src
+make pack                       # produces NTiny.NTinySDK.<ver>.pack
+make eclipse                    # launches Eclipse
 ```
 
-The Eclipse project's source paths are *linked resources* that resolve to
-`Device/NTiny/Source`, `Drivers/Source`, `Utilities/Source` and the
-selected `Examples/<n>/src` — there is no duplicate copy of the BSP
-inside the App folder.
+In Eclipse (Embedded CDT distribution):
+
+1. **Window → Perspective → Open Perspective → Other → Packs.**
+2. In the *Packs* view, click **Import existing packs** and pick
+   `NTiny.NTinySDK.1.0.0.pack`. The NTiny vendor and `NTINY` device
+   appear in the tree.
+3. **File → New → C Project → Cross-Compiler Projects → RISC-V
+   Cross GCC Project**. Pick the `NTINY` device when prompted and
+   choose the *Blinky* (or any other) example as the template.
+4. Build with `Ctrl+B`. The CMSIS components (Device/Startup,
+   Driver/GPIO, Driver/UART, …) can be toggled via **Project →
+   Properties → C/C++ General → Components**.
+
+Switching examples is just creating a new C Project from a different
+template entry in the pack.
 
 ### 3. Import as a CMSIS Pack into another IDE
 
