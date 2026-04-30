@@ -26,7 +26,9 @@ SIZE        := $(TOOL_PREFIX)size
 
 # Eclipse launcher; any of these usually works on the user's system.
 ECLIPSE     ?= $(shell command -v eclipse || command -v gnumcueclipse || \
-                       command -v eclipse-cdt || echo eclipse)
+                       command -v eclipse-cdt || \
+                       ls $(HOME)/eclipse/*/eclipse/eclipse 2>/dev/null | head -1 || \
+                       echo eclipse)
 
 # Default example to build / track in App/.project.
 EXAMPLE     ?= Blinky
