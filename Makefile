@@ -40,8 +40,21 @@ EXAMPLE_DIR := $(ROOT)/Examples/$(EXAMPLE)/src
 BUILD_DIR   := $(ROOT)/build/$(EXAMPLE)
 LD_SCRIPT   := $(DEVICE_DIR)/Source/GCC/ntiny.ld
 
+# Optional per-example manifest. If Examples/<EX>/example.mk exists it is
+# pulled in here; the only variable it sets is LIBS, a space-separated list
+# of folder names under Libraries/ to be added to the include path and
+# compiled into this build (e.g. "FFT dht").
+LIBS        :=
+-include $(ROOT)/Examples/$(EXAMPLE)/example.mk
+
+LIB_INC     := $(foreach lib,$(LIBS),-I$(ROOT)/Libraries/$(lib)/src \
+                                     -I$(ROOT)/Libraries/$(lib))
+LIB_SRCS    := $(foreach lib,$(LIBS), \
+                   $(wildcard $(ROOT)/Libraries/$(lib)/src/*.c) \
+                   $(wildcard $(ROOT)/Libraries/$(lib)/*.c))
+
 # ---- Compiler flags ----------------------------------------------------------
-ARCH_FLAGS  := -march=rv32imafc_zicsr_zba_zbb -mabi=ilp32f -mcmodel=medlow
+ARCH_FLAGS  := -march=rv32imc_zicsr_zba_zbb -mabi=ilp32 -mcmodel=medlow
 WARN_FLAGS  := -Wall -Wno-implicit
 OPT_FLAGS   := -Os -ffunction-sections -fdata-sections
 DEFS        := -DF_CPU=50000000 -DCLOCKS_PER_SEC=50000000
@@ -50,7 +63,8 @@ CFLAGS      := $(ARCH_FLAGS) $(WARN_FLAGS) $(OPT_FLAGS) $(DEFS) \
                -I$(DEVICE_DIR)/Include \
                -I$(DEVICE_DIR)/Config  \
                -I$(DRIVERS_DIR)/Include \
-               -I$(UTIL_DIR)/Include
+               -I$(UTIL_DIR)/Include \
+               $(LIB_INC)
 
 LDFLAGS     := $(ARCH_FLAGS) -nostartfiles --specs=nosys.specs \
                -T$(LD_SCRIPT) \
@@ -61,7 +75,7 @@ DEVICE_SRCS := $(wildcard $(DEVICE_DIR)/Source/*.c)
 DRIVER_SRCS := $(wildcard $(DRIVERS_DIR)/Source/*.c)
 UTIL_SRCS   := $(wildcard $(UTIL_DIR)/Source/*.c)
 APP_SRCS    := $(wildcard $(EXAMPLE_DIR)/*.c)
-SRCS        := $(DEVICE_SRCS) $(DRIVER_SRCS) $(UTIL_SRCS) $(APP_SRCS)
+SRCS        := $(DEVICE_SRCS) $(DRIVER_SRCS) $(UTIL_SRCS) $(LIB_SRCS) $(APP_SRCS)
 OBJS        := $(patsubst $(ROOT)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 ELF         := $(BUILD_DIR)/$(EXAMPLE).elf

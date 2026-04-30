@@ -26,6 +26,7 @@ extern "C" {
 #include <stdint.h>
 
 #include "ntiny_mem_map.h"
+#include "ntiny_config.h"
 #include "csr.h"
 #include "system_ntiny.h"
 
@@ -44,6 +45,15 @@ typedef enum {
  * Peripheral register structures (CMSIS device-header style)
  * Pointer to these is materialised below via the *_BASE macros.
  * ==========================================================================*/
+#ifndef __IO
+  #define __IO  volatile
+#endif
+#ifndef __I
+  #define __I   volatile const
+#endif
+#ifndef __O
+  #define __O   volatile
+#endif
 
 /** GPIO peripheral register block. */
 typedef struct {
@@ -104,16 +114,6 @@ typedef struct {
 /* ==========================================================================
  * Peripheral instance pointers
  * ==========================================================================*/
-#ifndef __IO
-  #define __IO  volatile
-#endif
-#ifndef __I
-  #define __I   volatile const
-#endif
-#ifndef __O
-  #define __O   volatile
-#endif
-
 #define GPIO            ((GPIO_TypeDef  *) NTINY_GPIO_BASE)
 #define UART            ((UART_TypeDef  *) NTINY_UART_BASE)
 #define TIMER           ((TIMER_TypeDef *) NTINY_TIMER_BASE)
