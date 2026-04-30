@@ -15,7 +15,7 @@
   <repository type="git">https://github.com/ntiny/ntiny-sdk.git</repository>
 
   <releases>
-    <release version="1.0.0" date="2026-04-30">
+    <release version="1.0.1" date="2026-04-30">
       Initial release.
         - CMSIS-Pack layout (Device, Drivers, Utilities, CMSIS/SVD).
         - Memory map and peripheral definitions synced with the ntiny
@@ -254,7 +254,7 @@
     </component>
 
     <!-- 7. External-component (shield / module) drivers. -->
-    <component Cclass="Board Support" Cgroup="LCD HD44780" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="LCD HD44780" Cversion="1.0.0">
       <description>HD44780 16x2 / 20x4 character LCD driver (4-bit/8-bit).</description>
       <files>
         <file category="header" name="Libraries/lcd/src/lcd.h"/>
@@ -262,7 +262,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="MFRC522" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="MFRC522" Cversion="1.0.0">
       <description>NXP MFRC522 13.56 MHz RFID reader (SPI).</description>
       <files>
         <file category="header" name="Libraries/MFRC522/src/mfrc522.h"/>
@@ -272,7 +272,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="DAC MCP4725" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="DAC MCP4725" Cversion="1.0.0">
       <description>Microchip MCP4725 12-bit I2C DAC driver.</description>
       <files>
         <file category="header" name="Libraries/DAC_MCP4725/src/dac.h"/>
@@ -280,7 +280,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="DHT" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="DHT" Cversion="1.0.0">
       <description>Aosong DHT11 / DHT22 temperature + humidity sensor (1-wire).</description>
       <files>
         <file category="header" name="Libraries/dht/src/dht.h"/>
@@ -288,7 +288,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="DMD" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="DMD" Cversion="1.0.0">
       <description>Dot-matrix display driver with bundled bitmap fonts.</description>
       <files>
         <file category="header" name="Libraries/DMD/src/DMD.h"/>
@@ -296,7 +296,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="Servo" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="Servo" Cversion="1.0.0">
       <description>Hobby servo motor driver (PWM-based).</description>
       <files>
         <file category="header" name="Libraries/Servo_motor/src/servo.h"/>
@@ -304,7 +304,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="ADXL345" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="ADXL345" Cversion="1.0.0">
       <description>Analog Devices ADXL345 3-axis accelerometer (I2C/SPI).</description>
       <files>
         <file category="header" name="Libraries/ADXL_346/src/adxl_345.h"/>
@@ -312,7 +312,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="GY80" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="GY80" Cversion="1.0.0">
       <description>GY-80 9-DoF IMU (accel/gyro/mag/baro) breakout.</description>
       <files>
         <file category="header" name="Libraries/GY80/src/GY_80.h"/>
@@ -320,7 +320,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="MPU6050" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="MPU6050" Cversion="1.0.0">
       <description>InvenSense MPU-6050 6-axis IMU (I2C).</description>
       <files>
         <file category="header" name="Libraries/MPU_6050/src/mpu_6050.h"/>
@@ -328,7 +328,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="SSD1306" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="SSD1306" Cversion="1.0.0">
       <description>SSD1306 0.96-inch monochrome OLED driver.</description>
       <files>
         <file category="header" name="Libraries/SSD1306/src/ssd1306.h"/>
@@ -338,7 +338,7 @@
       </files>
     </component>
 
-    <component Cclass="Board Support" Cgroup="Keypad" Cversion="1.0.0">
+    <component Cclass="Library" Cgroup="Keypad" Cversion="1.0.0">
       <description>4x4 matrix keypad driver.</description>
       <files>
         <file category="header" name="Libraries/keypad/src/keypad.h"/>
@@ -352,10 +352,11 @@
   <!-- Examples that ship inside the pack.                         -->
   <!-- =========================================================== -->
   <examples>
-    <example name="Blinky" doc="README.md" folder="Examples/Blinky">
+    <example name="Blinky" folder="Examples/Blinky">
       <description>Toggle a GPIO pin once per second.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="csolution" load="Blinky.csolution.yml"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
@@ -366,10 +367,11 @@
       </attributes>
     </example>
 
-    <example name="UartHello" doc="README.md" folder="Examples/UartHello">
+    <example name="UartHello" folder="Examples/UartHello">
       <description>Print a banner and echo received UART characters.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -378,10 +380,11 @@
       </attributes>
     </example>
 
-    <example name="CRC" doc="README.md" folder="Examples/CRC">
+    <example name="CRC" folder="Examples/CRC">
       <description>Compute and verify CRC32 over a buffer.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -391,10 +394,11 @@
       </attributes>
     </example>
 
-    <example name="PID" doc="README.md" folder="Examples/PID">
+    <example name="PID" folder="Examples/PID">
       <description>Closed-loop PID controller with PWM output.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -406,10 +410,11 @@
       </attributes>
     </example>
 
-    <example name="RFID" doc="README.md" folder="Examples/RFID">
+    <example name="RFID" folder="Examples/RFID">
       <description>Read RFID tags via the MFRC522 (SPI).</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -417,14 +422,15 @@
         <component Cclass="Driver"        Cgroup="SPI"/>
         <component Cclass="Driver"        Cgroup="UART"/>
         <component Cclass="Driver"        Cgroup="Timer"/>
-        <component Cclass="Board Support" Cgroup="MFRC522"/>
+        <component Cclass="Library" Cgroup="MFRC522"/>
       </attributes>
     </example>
 
-    <example name="Car" doc="README.md" folder="Examples/Car">
+    <example name="Car" folder="Examples/Car">
       <description>RC-car platform: steering servo + UART telemetry.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -432,14 +438,15 @@
         <component Cclass="Driver"        Cgroup="GPIO"/>
         <component Cclass="Driver"        Cgroup="PWM"/>
         <component Cclass="Driver"        Cgroup="UART"/>
-        <component Cclass="Board Support" Cgroup="Servo"/>
+        <component Cclass="Library" Cgroup="Servo"/>
       </attributes>
     </example>
 
-    <example name="IoT" doc="README.md" folder="Examples/IoT">
+    <example name="IoT" folder="Examples/IoT">
       <description>Read DHT temperature/humidity and stream over UART.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -447,14 +454,15 @@
         <component Cclass="Driver"        Cgroup="GPIO"/>
         <component Cclass="Driver"        Cgroup="Timer"/>
         <component Cclass="Driver"        Cgroup="UART"/>
-        <component Cclass="Board Support" Cgroup="DHT"/>
+        <component Cclass="Library" Cgroup="DHT"/>
       </attributes>
     </example>
 
-    <example name="FFT" doc="README.md" folder="Examples/FFT">
+    <example name="FFT" folder="Examples/FFT">
       <description>Software FFT benchmark using the microFFT library.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="src/main.c"/>
       </project>
       <attributes>
@@ -465,10 +473,11 @@
       </attributes>
     </example>
 
-    <example name="CoreMark" doc="README.md" folder="Libraries/coremark">
+    <example name="CoreMark" folder="Libraries/coremark">
       <description>Run the EEMBC CoreMark CPU benchmark.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="core_main.c"/>
       </project>
       <attributes>
@@ -480,10 +489,11 @@
       </attributes>
     </example>
 
-    <example name="Dhrystone" doc="README.md" folder="Libraries/dhrystone">
+    <example name="Dhrystone" folder="Libraries/dhrystone">
       <description>Run the Dhrystone 2.1 integer benchmark.</description>
       <board name="NTiny FPGA" vendor="NTiny"/>
       <project>
+        <environment name="uv" load="src/main.c"/>
         <environment name="gcc" load="dhry_1.c"/>
       </project>
       <attributes>
