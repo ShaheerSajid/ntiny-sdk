@@ -1,0 +1,31 @@
+# Open-CMSIS-Toolbox solution descriptor.
+# Drives `cbuild` and any IDE that consumes csolution files
+# (Keil uVision 6, VS Code Arm Keil, recent Eclipse Embedded CDT).
+solution:
+  description: NTiny Blinky example -- toggle a GPIO pin once per second.
+  created-for: tool@latest
+
+  # Toolchain. Override with `--toolchain` on the cbuild command line.
+  compiler: GCC
+
+  # Pull in the NTiny SDK pack we ship from this same repository.
+  packs:
+    - pack: NTiny::NTinySDK@>=1.0.0
+
+  # Single hardware target -- the NTiny FPGA reference platform.
+  target-types:
+    - type: NTiny FPGA
+      board: NTiny::NTiny FPGA
+      device: NTiny::NTINY
+
+  # Two build configurations.
+  build-types:
+    - type: Debug
+      debug: on
+      optimize: debug
+    - type: Release
+      debug: off
+      optimize: size
+
+  projects:
+    - project: ./Blinky.cproject.yml

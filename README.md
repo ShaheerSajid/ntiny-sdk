@@ -73,21 +73,35 @@ make pack                       # produces NTiny.NTinySDK.<ver>.pack
 make eclipse                    # launches Eclipse
 ```
 
-In Eclipse (Embedded CDT distribution):
+The pack publishes:
 
-1. **Window → Perspective → Open Perspective → Other → Packs.**
-2. In the *Packs* view, click **Import existing packs** and pick
-   `NTiny.NTinySDK.1.0.0.pack`. The NTiny vendor and `NTINY` device
-   appear in the tree.
-3. **File → New → C Project → Cross-Compiler Projects → RISC-V
-   Cross GCC Project**. Pick the `NTINY` device when prompted and
-   choose the *Blinky* (or any other) example as the template.
-4. Build with `Ctrl+B`. The CMSIS components (Device/Startup,
-   Driver/GPIO, Driver/UART, …) can be toggled via **Project →
-   Properties → C/C++ General → Components**.
+- **Device:** `NTiny / NTiny Series / NTINY` with full SVD attached.
+- **Board:** `NTiny FPGA` (so the *Examples* view filters correctly).
+- **Components** that show up under *Project Properties → CMSIS Components*:
+  - `Device / Startup` (mandatory)
+  - `Driver / { GPIO, UART, SPI, I2C, Timer, PWM, PLIC }`
+  - `Utility / { ee_printf, clock }`
+  - `RTOS / FreeRTOS`
+  - `Benchmark / { CoreMark, Dhrystone }`
+  - `Library / { AES, microFFT }`
+  - `Board Support / { LCD HD44780, MFRC522, DAC MCP4725, DHT, DMD,
+                       Servo, ADXL345, GY80, MPU6050, SSD1306, Keypad }`
+- **Examples:** Blinky, UartHello, CRC, PID, RFID, Car, IoT, FFT,
+  CoreMark, Dhrystone — each with the right components pre-selected.
 
-Switching examples is just creating a new C Project from a different
-template entry in the pack.
+The detailed click-by-click for the ARM CmsisPackPlugIn is at
+**[docs/eclipse-import.md](docs/eclipse-import.md)** — read that the
+first time, copy the resulting project for subsequent ones.
+
+For modern toolchains that consume Open-CMSIS-Toolbox YAMLs
+(`csolution` / `cbuild`), each example also ships a
+`<Example>.csolution.yml` + `<Example>.cproject.yml` so the entire
+project (including compiler/linker flags) is configured automatically:
+
+```bash
+cd Examples/Blinky
+cbuild Blinky.csolution.yml         # one shot, no GUI clicks
+```
 
 ### 3. Import as a CMSIS Pack into another IDE
 

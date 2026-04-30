@@ -1,0 +1,42 @@
+# Open-CMSIS-Toolbox project descriptor for Blinky.
+project:
+  description: Toggle a GPIO pin once per second.
+
+  # Compiler flags / defines / include paths that apply to the whole project.
+  setups:
+    - setup: NTiny target setup
+      add-path:
+        - ./src
+      define:
+        - F_CPU: 50000000
+        - CLOCKS_PER_SEC: 50000000
+
+  # Components from the NTiny pack.
+  components:
+    - component: NTiny::Device:Startup
+    - component: NTiny::Driver:GPIO
+    - component: NTiny::Driver:Timer
+
+  # User application source.
+  groups:
+    - group: src
+      files:
+        - file: ./src/main.c
+
+  # Toolchain-specific knobs.
+  linker:
+    - script: ./../../Device/NTiny/Source/GCC/ntiny.ld
+
+  misc:
+    - for-compiler: GCC
+      C:
+        - -march=rv32imc_zicsr_zba_zbb
+        - -mabi=ilp32
+        - -mcmodel=medlow
+        - -ffunction-sections
+        - -fdata-sections
+        - -Wno-implicit
+      Link:
+        - -nostartfiles
+        - --specs=nosys.specs
+        - -Wl,--gc-sections
