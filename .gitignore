@@ -1,0 +1,39 @@
+# --- Eclipse workspace metadata --------------------------------------------
+# Workspace-local state: never check in.
+.metadata/
+RemoteSystemsTempFiles/
+.recommenders/
+
+# --- Build output ----------------------------------------------------------
+# Eclipse CDT managed-build directories.
+App/Debug/
+App/Release/
+**/Debug/
+**/Release/
+
+# Generated build artifacts.
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.su
+*.dmem.text
+*.imem.text
+*.mem.text
+
+# --- CMSIS Pack build output ----------------------------------------------
+# `gen_pack.sh` produces these.
+*.pack
+build/
+output/
+
+# --- Editor / OS scratch ---------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db

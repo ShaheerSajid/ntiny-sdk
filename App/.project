@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ntiny_application</name>
+	<comment>NTiny SDK Eclipse application. Includes/sources resolve to the
+		canonical Device/, Drivers/, Utilities/ folders at the SDK root via
+		the linkedResources block below.</comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>device-source</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Device/NTiny/Source</locationURI>
+		</link>
+		<link>
+			<name>drivers-source</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/Source</locationURI>
+		</link>
+		<link>
+			<name>utilities-source</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utilities/Source</locationURI>
+		</link>
+		<!-- example-source points at whichever Examples/<n>/src you want
+			active. Change the URI to switch examples without editing
+			.cproject. Default is Blinky. -->
+		<link>
+			<name>example-source</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Examples/Blinky/src</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

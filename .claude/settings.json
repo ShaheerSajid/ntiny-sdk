@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/shaheer/Documents/github/ntiny/software/drivers/gpio/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/software/drivers/uart/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/software/drivers/spi/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/software/drivers/i2c/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/software/drivers/plic/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/software/common/**)",
+      "Read(//home/shaheer/Documents/github/ntiny/**)",
+      "Read(//tmp/cmsis_ref/CMSIS_6-6.3.0/**)"
+    ]
+  }
+}

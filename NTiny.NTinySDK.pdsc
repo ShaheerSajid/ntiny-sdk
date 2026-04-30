@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.7.7"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.7/schema/PACK.xsd">
+
+  <vendor>NTiny</vendor>
+  <name>NTinySDK</name>
+  <description>Software Development Kit for the NTiny RISC-V SoC.
+               Provides the device header, peripheral drivers (GPIO,
+               UART, SPI, I2C, Timer, PWM, PLIC), an SVD register
+               description, startup code, GCC linker script and
+               example projects.</description>
+  <url>https://github.com/ntiny/ntiny-sdk/raw/main/</url>
+  <license>LICENSE</license>
+  <repository type="git">https://github.com/ntiny/ntiny-sdk.git</repository>
+
+  <releases>
+    <release version="1.0.0" date="2026-04-30">
+      Initial release.
+        - CMSIS-Pack layout (Device, Drivers, Utilities, CMSIS/SVD).
+        - Memory map and peripheral definitions synced with the ntiny
+          core repository (design/common/mem_map.json).
+        - GPIO, UART, SPI, I2C, Timer, PWM and PLIC drivers.
+        - Vectored startup with FPU enabled by default.
+        - SVD register description for debugger Peripherals view.
+        - Blinky and UartHello example projects.
+    </release>
+  </releases>
+
+  <keywords>
+    <keyword>NTiny</keyword>
+    <keyword>RISC-V</keyword>
+    <keyword>RV32IMAFC</keyword>
+    <keyword>SoC</keyword>
+    <keyword>Bare-metal</keyword>
+  </keywords>
+
+  <!-- =========================================================== -->
+  <!-- Device family description.                                  -->
+  <!-- =========================================================== -->
+  <devices>
+    <family Dfamily="NTiny Series" Dvendor="NTiny:0">
+      <description>NTiny is a 4-stage in-order RISC-V SoC implementing
+                   RV32IMAFC + Zicsr + Zifencei + Zba + Zbb with M/S/U
+                   privilege modes and an Sv32 MMU. Default core
+                   frequency is 50 MHz.</description>
+
+      <subFamily DsubFamily="NTiny32">
+        <device Dname="NTINY">
+          <processor Dcore="Other" DcoreVersion="r0p0"
+                     Dfpu="SP_FPU" Dmpu="NO_MPU" Dendian="Little-endian"
+                     Dclock="50000000"/>
+
+          <!-- Memory map: 32 KB unified RAM at 0x80000000. -->
+          <memory name="RAM"  access="rwx" start="0x80000000" size="0x00008000" default="1" startup="1"/>
+          <memory name="BOOT" access="rx"  start="0x00001000" size="0x00001000"/>
+
+          <!-- SVD for the Peripherals view in debuggers. -->
+          <debug svd="CMSIS/SVD/ntiny.svd"/>
+
+          <!-- GCC linker script and startup. -->
+          <compile header="Device/NTiny/Include/ntiny.h"/>
+          <algorithm name="Device/NTiny/Source/GCC/ntiny.ld" start="0x80000000" size="0x00008000" default="1"/>
+        </device>
+      </subFamily>
+    </family>
+  </devices>
+
+  <!-- =========================================================== -->
+  <!-- Components: selectable units that consumers add to their    -->
+  <!-- project via the IDE's component manager.                    -->
+  <!-- =========================================================== -->
+  <components>
+
+    <!-- 1. CMSIS-style device header + system + startup. -->
+    <component Cclass="Device" Cgroup="Startup" Cversion="1.0.0">
+      <description>NTiny startup code, system init, and device header.</description>
+      <files>
+        <file category="header" name="Device/NTiny/Include/ntiny.h"/>
+        <file category="header" name="Device/NTiny/Include/ntiny_mem_map.h"/>
+        <file category="header" name="Device/NTiny/Include/system_ntiny.h"/>
+        <file category="header" name="Device/NTiny/Include/csr.h"/>
+        <file category="header" name="Device/NTiny/Include/init.h"/>
+        <file category="source" name="Device/NTiny/Source/system_ntiny.c"/>
+        <file category="source" name="Device/NTiny/Source/startup_ntiny.c" attr="config" version="1.0.0"/>
+        <file category="header" name="Device/NTiny/Config/ntiny_config.h" attr="config" version="1.0.0"/>
+        <file category="linkerScript" name="Device/NTiny/Source/GCC/ntiny.ld" attr="config" version="1.0.0"/>
+      </files>
+    </component>
+
+    <!-- 2. Peripheral drivers (selectable individually so users    -->
+    <!--    only pull in what they need).                           -->
+    <component Cclass="Driver" Cgroup="GPIO" Cversion="1.0.0">
+      <description>GPIO driver for the NTiny SoC.</description>
+      <files>
+        <file category="header" name="Drivers/Include/gpio.h"/>
+        <file category="header" name="Drivers/Include/gpio_defs.h"/>
+        <file category="source" name="Drivers/Source/gpio.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="UART" Cversion="1.0.0">
+      <description>UART driver for the NTiny SoC.</description>
+      <files>
+        <file category="header" name="Drivers/Include/uart.h"/>
+        <file category="header" name="Drivers/Include/uart_def.h"/>
+        <file category="source" name="Drivers/Source/uart.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="SPI" Cversion="1.0.0">
+      <description>SPI master driver for the NTiny SoC.</description>
+      <files>
+        <file category="header" name="Drivers/Include/spi.h"/>
+        <file category="header" name="Drivers/Include/spi_defs.h"/>
+        <file category="source" name="Drivers/Source/spi.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="I2C" Cversion="1.0.0">
+      <description>I2C master driver for the NTiny SoC.</description>
+      <files>
+        <file category="header" name="Drivers/Include/i2c.h"/>
+        <file category="header" name="Drivers/Include/i2c_defs.h"/>
+        <file category="source" name="Drivers/Source/i2c.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="Timer" Cversion="1.0.0">
+      <description>Timer driver and busy-wait delay helpers.</description>
+      <files>
+        <file category="header" name="Drivers/Include/timer.h"/>
+        <file category="source" name="Drivers/Source/timer.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="PWM" Cversion="1.0.0">
+      <description>Dual-channel PWM driver.</description>
+      <files>
+        <file category="header" name="Drivers/Include/pwm.h"/>
+        <file category="source" name="Drivers/Source/pwm.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Driver" Cgroup="PLIC" Cversion="1.0.0">
+      <description>Platform-Level Interrupt Controller driver.</description>
+      <files>
+        <file category="header" name="Drivers/Include/plic.h"/>
+        <file category="header" name="Drivers/Include/plic_defs.h"/>
+        <file category="source" name="Drivers/Source/plic.c"/>
+      </files>
+    </component>
+
+    <!-- 3. Utility components. -->
+    <component Cclass="Utility" Cgroup="ee_printf" Cversion="1.0.0">
+      <description>Tiny embedded printf implementation.</description>
+      <files>
+        <file category="header" name="Utilities/Include/ee_printf.h"/>
+        <file category="source" name="Utilities/Source/ee_printf.c"/>
+      </files>
+    </component>
+
+    <component Cclass="Utility" Cgroup="clock" Cversion="1.0.0">
+      <description>mcycle-based monotonic clock helper.</description>
+      <files>
+        <file category="source" name="Utilities/Source/clock.c"/>
+      </files>
+    </component>
+
+  </components>
+
+  <!-- =========================================================== -->
+  <!-- Examples that ship inside the pack.                         -->
+  <!-- =========================================================== -->
+  <examples>
+    <example name="Blinky" doc="README.md" folder="Examples/Blinky">
+      <description>Toggle a GPIO pin once per second.</description>
+      <board name="NTiny FPGA" vendor="NTiny"/>
+      <project>
+        <environment name="gcc" load="src/main.c"/>
+      </project>
+      <attributes>
+        <component Cclass="Device"   Cgroup="Startup"/>
+        <component Cclass="Driver"   Cgroup="GPIO"/>
+        <component Cclass="Driver"   Cgroup="Timer"/>
+      </attributes>
+    </example>
+
+    <example name="UartHello" doc="README.md" folder="Examples/UartHello">
+      <description>Print a banner and echo received UART characters.</description>
+      <board name="NTiny FPGA" vendor="NTiny"/>
+      <project>
+        <environment name="gcc" load="src/main.c"/>
+      </project>
+      <attributes>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <component Cclass="Driver" Cgroup="UART"/>
+      </attributes>
+    </example>
+  </examples>
+
+</package>
